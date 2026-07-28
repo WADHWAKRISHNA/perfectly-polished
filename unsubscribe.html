@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unsubscribed — Perfectly Polished</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Perfectly <span>Polished</span></span>
+    </a>
+  </div>
+</nav>
+
+<section class="wrap" style="padding-top:70px; padding-bottom:80px; display:flex; justify-content:center;">
+  <div class="admin-card" style="max-width:460px; text-align:center;">
+    <div id="us-icon" style="font-size:2.4rem; margin-bottom:10px;">🌸</div>
+    <h2 id="us-title">Just a moment…</h2>
+    <p id="us-message" style="margin-bottom:0;">
+      <span class="ty-spinner"></span> Updating your preferences…
+    </p>
+    <a href="index.html" class="btn btn-outline btn-sm" style="margin-top:20px;">Back to the site</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <small>© <span id="year"></span> Perfectly Polished. Handmade resin art.</small>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (async () => {
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get('email');
+    const titleEl = document.getElementById('us-title');
+    const msgEl = document.getElementById('us-message');
+    const iconEl = document.getElementById('us-icon');
+
+    if (!email) {
+      iconEl.textContent = '⚠️';
+      titleEl.textContent = 'Missing email';
+      msgEl.textContent = 'This link is missing an email address, so we couldn\'t process it.';
+      return;
+    }
+
+    const configured = CONFIG.SCRIPT_URL && !CONFIG.SCRIPT_URL.includes('PASTE_YOUR_DEPLOYMENT_ID_HERE');
+    if (!configured) {
+      iconEl.textContent = '⚠️';
+      titleEl.textContent = 'Not connected yet';
+      msgEl.textContent = 'The site owner hasn\'t connected the Google Sheet yet, so this can\'t be processed right now.';
+      return;
+    }
+
+    try {
+      const res = await fetch(`${CONFIG.SCRIPT_URL}?action=unsubscribe&email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+      if (data && data.success) {
+        iconEl.textContent = '✅';
+        titleEl.textContent = "You're unsubscribed";
+        msgEl.textContent = data.found
+          ? "You won't receive further update emails from us — thank you for having been a part of our journey."
+          : "We couldn't find that email in our list — you may already be unsubscribed.";
+      } else {
+        throw new Error('Unexpected response');
+      }
+    } catch (err) {
+      console.error(err);
+      iconEl.textContent = '⚠️';
+      titleEl.textContent = 'Something went wrong';
+      msgEl.textContent = 'We couldn\'t process this right now. Please try the link again in a moment.';
+    }
+  })();
+</script>
+</body>
+</html>
