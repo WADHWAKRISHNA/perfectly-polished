@@ -105,33 +105,63 @@ function closeLightbox() {
   document.removeEventListener('keydown', escCloseOnce);
 }
 
-/* ---- Page-level init hooks ---- */
-
-async function initGalleryPage() {
-  const products = shuffleArray(await loadProducts());
-  renderGrid('gallery-grid', products);
+/* ---- Auto-reshuffle: re-shuffles cards on their own every few seconds ---- */
+function fadeSwap(el, updateFn) {
+  if (!el) { updateFn(); return; }
+  el.style.transition = 'opacity .4s ease';
+  el.style.opacity = '0';
+  setTimeout(() => {
+    updateFn();
+    el.style.opacity = '1';
+  }, 400);
 }
 
-async function initHomePage() {
-  const all = shuffleArray(await loadProducts());
-  if (!all.length) return;
-
-  // Hero banner: pick one random product as the big showcase image
-  const hero = all[0];
+function setHomeHero(hero) {
   const heroImg = document.getElementById('hero-img');
   const heroTitle = document.getElementById('hero-title');
   const heroDesc = document.getElementById('hero-desc');
   if (heroImg) {
-    heroImg.src = hero.imageUrl;
-    heroImg.alt = hero.title || 'Handmade resin art piece';
+    heroImg.style.opacity = '0';
+    setTimeout(() => {
+      heroImg.src = hero.imageUrl;
+      heroImg.alt = hero.title || 'Handmade resin art piece';
+      heroImg.style.opacity = '1';
+    }, 300);
   }
   if (heroTitle) heroTitle.textContent = hero.title || 'Perfectly Polished';
   if (heroDesc) {
     const d = hero.description || '';
     heroDesc.textContent = d.length > 90 ? d.slice(0, 87) + '…' : d;
   }
+}
 
-  // Grid below: the rest of the shuffled set (falls back to reusing all if there's only one product)
-  const gridItems = all.length > 1 ? all.slice(1, 7) : all;
-  renderGrid('home-grid', gridItems);
+/* ---- Page-level init hooks ---- */
+
+async function initGalleryPage() {
+  const all = await loadProducts();
+  const el = document.getElementById('gallery-grid');
+  renderGrid('gallery-grid', shuffleArray(all));
+  if (all.length > 1) {
+    setInterval(() => {
+      fadeSwap(el, () => renderGrid('gallery-grid', shuffleArray(all)));
+    }, 8000);
+  }
+}
+
+async function initHomePage() {
+  const all = await loadProducts();
+  if (!all.length) return;
+  const gridEl = document.getElementById('home-grid');
+
+  function showRandomState() {
+    const shuffled = shuffleArray(all);
+    setHomeHero(shuffled[0]);
+    const gridItems = shuffled.length > 1 ? shuffled.slice(1, 7) : shuffled;
+    renderGrid('home-grid', gridItems);
+  }
+
+  showRandomState();
+  if (all.length > 1) {
+    setInterval(() => fadeSwap(gridEl, showRandomState), 8000);
+  }
 }
