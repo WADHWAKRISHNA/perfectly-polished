@@ -139,13 +139,7 @@ function setHomeHero(hero) {
 
 async function initGalleryPage() {
   const all = await loadProducts();
-  const el = document.getElementById('gallery-grid');
-  renderGrid('gallery-grid', shuffleArray(all));
-  if (all.length > 1) {
-    setInterval(() => {
-      fadeSwap(el, () => renderGrid('gallery-grid', shuffleArray(all)));
-    }, 8000);
-  }
+  renderGrid('gallery-grid', shuffleArray(all)); // shuffled once per page load, doesn't keep re-shuffling
 }
 
 async function initHomePage() {
