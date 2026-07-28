@@ -1,5 +1,6 @@
 /* =========================================================
-   Contact page: pre-fill product reference + submit to Sheet
+   Contact page: pre-fill product reference, submit to Sheet,
+   then show a Thank-you popup that redirects to WhatsApp.
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,16 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // WhatsApp quick-chat button — only shown once a number is set in js/config.js
-  const waBtn = document.getElementById('whatsapp-btn');
-  if (waBtn && CONFIG.WHATSAPP_NUMBER && CONFIG.WHATSAPP_NUMBER.trim()) {
-    const waMessage = ref
-      ? `Hi! I'd love to order the "${ref}" piece I saw in your gallery.`
-      : `Hi! I'd love to know more about your resin art pieces.`;
-    waBtn.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER.trim()}?text=${encodeURIComponent(waMessage)}`;
-    waBtn.style.display = 'inline-flex';
-  }
-
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (!form) return;
@@ -42,11 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const name = document.getElementById('field-name').value.trim();
     const email = document.getElementById('field-email').value.trim();
+    const phone = document.getElementById('field-phone').value.trim();
     const message = messageEl ? messageEl.value.trim() : '';
     const productRef = refInput ? refInput.value.trim() : '';
+    const subscribed = document.getElementById('field-subscribe').checked;
 
-    if (!name || !email) {
-      status.textContent = 'Please fill in your name and email.';
+    if (!name || !email || !phone) {
+      status.textContent = 'Please fill in your name, email, and mobile number.';
       status.className = 'form-status err';
       return;
     }
@@ -58,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!isScriptConfigured()) {
       // No Google Sheet connected yet — let the site owner know, but don't lose the visitor's message
-      console.log('Contact form submission (Google Sheet not yet connected):', { name, email, message, productRef });
-      status.textContent = "Thanks! (Note to owner: connect your Google Sheet link in js/config.js to start saving these automatically.)";
-      status.className = 'form-status ok';
-      form.reset();
+      console.log('Contact form submission (Google Sheet not yet connected):', { name, email, phone, message, productRef, subscribed });
+      status.textContent = "Note to owner: connect your Google Sheet link in js/config.js to start saving these and sending emails automatically.";
+      status.className = 'form-status err';
       submitBtn.disabled = false;
+      openThankYou(name, ref);
       return;
     }
 
@@ -70,12 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
       await fetch(CONFIG.SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight with Apps Script
-        body: JSON.stringify({ action: 'addContact', name, email, message, productRef }),
+        body: JSON.stringify({ action: 'addContact', name, email, phone, message, productRef, subscribed }),
       });
-      status.textContent = `Thank you, ${name}! We've received your message and will reach out to ${email} soon. 🌸`;
-      status.className = 'form-status ok';
+      status.textContent = '';
       form.reset();
       if (refChip) refChip.style.display = 'none';
+      openThankYou(name, ref);
     } catch (err) {
       console.error(err);
       status.textContent = 'Something went wrong sending your message. Please try again, or reach us directly.';
@@ -85,3 +78,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function openThankYou(name, ref) {
+  const modal = document.getElementById('ty-modal');
+  const msg = document.getElementById('ty-message');
+  const redirectNote = document.getElementById('ty-redirect-note');
+  const waNowBtn = document.getElementById('ty-wa-now');
+  const closeBtn = document.getElementById('ty-close');
+  if (!modal) return;
+
+  msg.textContent = `Thanks${name ? ', ' + name : ''}! Your message has been received — we'll be in touch soon.`;
+
+  const hasWhatsApp = typeof CONFIG !== 'undefined' && CONFIG.WHATSAPP_NUMBER && CONFIG.WHATSAPP_NUMBER.trim();
+  let redirectTimer = null;
+
+  if (hasWhatsApp) {
+    const waMessage = ref
+      ? `Hi! I'd love to order the "${ref}" piece I saw in your gallery.`
+      : `Hi! I just sent a message on your website — following up here on WhatsApp.`;
+    const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER.trim()}?text=${encodeURIComponent(waMessage)}`;
+
+    redirectNote.style.display = 'block';
+    waNowBtn.style.display = 'inline-flex';
+    waNowBtn.href = waUrl;
+
+    redirectTimer = setTimeout(() => {
+      window.location.href = waUrl;
+    }, 2200);
+  } else {
+    redirectNote.style.display = 'none';
+    waNowBtn.style.display = 'none';
+  }
+
+  modal.classList.add('open');
+
+  closeBtn.onclick = () => {
+    if (redirectTimer) clearTimeout(redirectTimer);
+    modal.classList.remove('open');
+  };
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      if (redirectTimer) clearTimeout(redirectTimer);
+      modal.classList.remove('open');
+    }
+  };
+}
