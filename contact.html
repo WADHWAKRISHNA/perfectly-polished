@@ -49,8 +49,16 @@
         <input type="email" id="field-email" required placeholder="you@email.com">
       </div>
       <div class="form-field">
+        <label for="field-phone">Mobile number</label>
+        <input type="tel" id="field-phone" required placeholder="e.g. 98765 43210">
+      </div>
+      <div class="form-field">
         <label for="field-message">Message (optional)</label>
         <textarea id="field-message" placeholder="Tell us about the piece you'd love, preferred colours, or any questions"></textarea>
+      </div>
+      <div class="form-field" style="display:flex; align-items:flex-start; gap:10px;">
+        <input type="checkbox" id="field-subscribe" style="width:auto; margin-top:4px;">
+        <label for="field-subscribe" style="margin:0; font-weight:400; font-size:.85rem; color:var(--muted);">Subscribe for updates on new pieces (about once every 2 weeks — unsubscribe anytime)</label>
       </div>
       <button type="submit" class="btn btn-primary">Send message</button>
       <p id="form-status" class="form-status"></p>
@@ -60,13 +68,25 @@
   <div class="contact-note">
     <span class="eyebrow">What happens next</span>
     <h3>Every message gets a personal reply.</h3>
-    <p>Once you hit send, your details land straight in our order inbox. We typically reply within 24–48 hours with pricing, timelines, and any colour options.</p>
-    <p>Prefer a faster chat? Message us directly on WhatsApp and mention the piece you loved from the gallery.</p>
-    <a id="whatsapp-btn" href="#" target="_blank" rel="noopener" class="btn" style="display:none; background:#25D366; color:#fff; margin-top:6px;">
-      💬 Chat on WhatsApp
-    </a>
+    <p>Once you hit send, your details land straight in our order inbox and you'll be redirected to WhatsApp to chat with us right away. We typically reply within 24–48 hours.</p>
   </div>
 </section>
+
+<!-- Thank-you / WhatsApp redirect popup -->
+<div id="ty-modal" class="lightbox">
+  <div class="lightbox-inner" style="grid-template-columns:1fr; max-width:420px; text-align:center;">
+    <div class="lightbox-text" style="align-items:center;">
+      <div style="font-size:2.4rem; margin-bottom:6px;">🌸</div>
+      <h3 style="margin-bottom:8px;">Thank you!</h3>
+      <p id="ty-message" style="margin-bottom:18px;">Your message has been sent. We'll be in touch soon.</p>
+      <p id="ty-redirect-note" style="font-size:.85rem; color:var(--muted); display:none;">
+        <span class="ty-spinner"></span> Redirecting you to WhatsApp…
+      </p>
+      <a id="ty-wa-now" href="#" target="_blank" rel="noopener" class="btn btn-primary" style="display:none; margin-top:6px;">Continue to WhatsApp →</a>
+      <button id="ty-close" type="button" class="btn btn-outline btn-sm" style="margin-top:14px;">Close</button>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap footer-inner">
