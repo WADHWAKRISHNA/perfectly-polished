@@ -194,7 +194,7 @@ section{ padding:64px 0; }
 
 /* ---------- Product / Gallery cards ---------- */
 .grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 340px)); gap:26px;
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 340px)); gap:26px;
   justify-content:center;
 }
 
@@ -203,6 +203,14 @@ section{ padding:64px 0; }
   border:1px solid var(--line); box-shadow:0 14px 34px -22px rgba(59,42,42,.25);
   transition:transform .35s ease, box-shadow .35s ease;
   display:flex; flex-direction:column;
+  animation:card-fade-in .5s ease both;
+}
+@keyframes card-fade-in{
+  from{ opacity:0; transform:translateY(8px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+@media (prefers-reduced-motion: reduce){
+  .card{ animation:none; }
 }
 .card:hover{ transform:translateY(-6px); box-shadow:var(--shadow); }
 .card-img{
@@ -320,3 +328,11 @@ footer{
   background-size:400% 100%; animation:sk 1.6s ease infinite; border-radius:var(--radius);
 }
 @keyframes sk{ 0%{background-position:100% 0;} 100%{background-position:0 0;} }
+
+/* ---------- Thank-you popup spinner ---------- */
+.ty-spinner{
+  display:inline-block; width:12px; height:12px; border-radius:50%;
+  border:2px solid var(--blush); border-top-color:var(--rose-gold-deep);
+  animation:ty-spin .7s linear infinite; vertical-align:middle; margin-right:6px;
+}
+@keyframes ty-spin{ to{ transform:rotate(360deg); } }
