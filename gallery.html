@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Perfectly Polished</title>
+<meta name="description" content="Browse hand-poured resin art pieces — click any piece to see it up close and order directly.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Perfectly <span>Polished</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" style="padding-bottom:10px;">
+  <div class="hero-blob" style="width:360px;height:360px;top:-160px;right:-140px;"></div>
+  <div class="wrap">
+    <span class="eyebrow">The full collection</span>
+    <h1 style="max-width:640px;">Every piece, poured and polished by hand.</h1>
+    <p class="lead">Tap any piece to see it up close — and order it directly.</p>
+  </div>
+</header>
+
+<section class="wrap">
+  <div id="gallery-grid" class="grid">
+    <div class="skeleton" style="height:340px;"></div>
+    <div class="skeleton" style="height:340px;"></div>
+    <div class="skeleton" style="height:340px;"></div>
+    <div class="skeleton" style="height:340px;"></div>
+    <div class="skeleton" style="height:340px;"></div>
+    <div class="skeleton" style="height:340px;"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <small>© <span id="year"></span> Perfectly Polished. Handmade resin art.</small>
+    <ul class="nav-links" style="padding:0;">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  initGalleryPage();
+</script>
+</body>
+</html>
