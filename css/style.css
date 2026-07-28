@@ -194,7 +194,7 @@ section{ padding:64px 0; }
 
 /* ---------- Product / Gallery cards ---------- */
 .grid{
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 340px)); gap:26px;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 340px)); gap:26px;
   justify-content:center;
 }
 
