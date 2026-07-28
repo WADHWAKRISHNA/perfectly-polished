@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Perfectly Polished</title>
+<meta name="description" content="The story behind Perfectly Polished — a small resin art studio pouring one-of-a-kind pieces by hand.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Perfectly <span>Polished</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" style="padding-bottom:20px;">
+  <div class="hero-blob" style="width:340px;height:340px;top:-150px;right:-130px;"></div>
+  <div class="wrap">
+    <span class="eyebrow">Our story</span>
+    <h1 style="max-width:620px;">Every pour tells a small, unrepeatable story.</h1>
+  </div>
+</header>
+
+<section class="wrap about-grid">
+  <div class="hero-visual" style="aspect-ratio:4/5;">
+    <img src="https://picsum.photos/seed/resin-studio/700/900" alt="Resin art studio workspace with poured pieces curing">
+  </div>
+  <div>
+    <p style="font-size:1.05rem;">Perfectly Polished began on a kitchen table, with a single mould and a lot of trial and error. What started as a way to preserve a handful of pressed flowers turned into a small studio devoted to one idea: resin, poured slowly and finished with care, can hold onto a moment better than almost anything else.</p>
+    <p>Today, every coaster, tray, wall piece and keepsake is still mixed, poured and cured by hand in small batches — never rushed, never mass-produced. Colours are layered gradually so the depth builds naturally, and every edge is sanded and buffed to a glass-like shine before it's ready to travel to its new home.</p>
+    <p>If you don't see the exact colours or size you're imagining in the gallery, reach out — most pieces can be made to order.</p>
+    <a href="contact.html" class="btn btn-primary" style="margin-top:8px;">Get in touch</a>
+  </div>
+</section>
+
+<div class="pour-divider">
+  <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M0,60 C300,-10 900,130 1200,40 L1200,120 L0,120 Z" fill="#F6E1D8"></path>
+  </svg>
+</div>
+
+<section class="wrap">
+  <div class="section-head center">
+    <span class="eyebrow" style="justify-content:center;">How each piece is made</span>
+    <h2>From mould to mantelpiece</h2>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="card"><div class="card-body">
+      <h3>Design &amp; mix</h3>
+      <p>Colours, florals or pigments are chosen and mixed into food-safe, UV-resistant resin.</p>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <h3>Pour &amp; cure</h3>
+      <p>Each layer is poured by hand and left to cure fully before the next goes on.</p>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <h3>Sand &amp; polish</h3>
+      <p>Edges are sanded through several grits and buffed to a mirror-gloss finish.</p>
+    </div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <small>© <span id="year"></span> Perfectly Polished. Handmade resin art.</small>
+    <ul class="nav-links" style="padding:0;">
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

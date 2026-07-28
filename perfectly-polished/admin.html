@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Perfectly Polished</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Perfectly <span>Polished</span></span>
+    </a>
+    <a href="index.html" class="btn btn-outline btn-sm">← Back to site</a>
+  </div>
+</nav>
+
+<section class="wrap" style="padding-top:56px;">
+  <div class="admin-shell">
+
+    <div id="admin-gate">
+      <div class="admin-card">
+        <span class="eyebrow">Admin only</span>
+        <h2>Enter password</h2>
+        <p>This page lets you add new pieces to the gallery. It's only for the site owner.</p>
+        <form id="gate-form">
+          <div class="form-field">
+            <label for="gate-password">Password</label>
+            <input type="password" id="gate-password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Unlock</button>
+          <p id="gate-error" class="form-status err"></p>
+        </form>
+      </div>
+    </div>
+
+    <div id="admin-panel" style="display:none;">
+      <div class="admin-card" style="margin-bottom:24px;">
+        <span class="pill-note">Nothing is stored on this device</span>
+        <h2>Add a new piece</h2>
+        <p>Fill this in and it's sent straight to your Google Sheet — it'll show up on the Gallery and Home pages within seconds, shuffled in with the rest.</p>
+
+        <form id="add-product-form">
+          <div class="form-field">
+            <label for="p-image">Photo link (image URL)</label>
+            <input type="url" id="p-image" placeholder="https://..." required>
+          </div>
+          <div class="form-field">
+            <label for="p-title">Title</label>
+            <input type="text" id="p-title" placeholder="e.g. Ocean Wave Coaster Set" required>
+          </div>
+          <div class="form-field">
+            <label for="p-description">Description</label>
+            <textarea id="p-description" placeholder="A short, lovely description of the piece" required></textarea>
+          </div>
+          <div class="form-field">
+            <label for="p-price">Price (optional)</label>
+            <input type="text" id="p-price" placeholder="e.g. ₹1,299">
+          </div>
+          <button type="submit" class="btn btn-primary">Add to gallery</button>
+          <p id="add-status" class="form-status"></p>
+        </form>
+      </div>
+
+      <div class="admin-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <h3 style="margin:0;">Current pieces</h3>
+          <button id="admin-logout" class="btn btn-outline btn-sm" type="button">Log out</button>
+        </div>
+        <div id="current-products"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
